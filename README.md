@@ -54,10 +54,32 @@ export default {
 ## 参数说明
 
 ```ts
+/**
+ * 压缩图片参数
+ */
 interface CompressOptions {
     minimumQuality?: number; // 最小质量
     quality?: number; // 压缩质量 0 - 1
     fileName?: string; // 压缩后的文件名, 默认为file.name
+}
+
+```
+
+## 返回值说明
+```ts
+/**
+ * 压缩图片结果
+ */
+interface CompressResult {
+    success: boolean, // 是否成功
+    file: File, // 压缩后的文件
+    originalSize: number, // 原始文件大小
+    compressedSize: number, // 压缩后文件大小
+    rate: number, // 压缩率（压缩为原来的%）
+    output: ArrayBuffer, // 压缩后的 ArrayBuffer
+    blob: Blob, // 压缩后的 Blob
+    rateString: string, // 压缩率字符串
+
 }
 
 ```
