@@ -1,6 +1,6 @@
 {
   "name": "tinypng-lib",
-  "version": "1.0.35",
+  "version": "1.0.36",
   "description": "",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -19,7 +19,20 @@
     "dist",
     "tinypng-lib-wasm.d.ts"
   ],
-  "keywords": [],
+  "keywords": [
+    "tinypng",
+    "tinify",
+    "image",
+    "wasm",
+    "webassembly",
+    "图片压缩",
+    "前端压缩",
+    "图片压缩库",
+    "图片压缩工具",
+    "图片压缩插件",
+    "开箱即用",
+    "压缩图片"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {

@@ -1,4 +1,3 @@
-
 export default{
     // 发布目录
     root: ".",
