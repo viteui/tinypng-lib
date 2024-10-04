@@ -1,5 +1,5 @@
 
-module.exports = {
+export default{
     // 发布目录
     root: ".",
     // 是否同步git
