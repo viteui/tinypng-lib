@@ -30,12 +30,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/viteui/tinypng-lib-wasm.git"
+    "url": "git+https://github.com/viteui/tinypng-lib.git"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/viteui/tinypng-lib-wasm/blob/master/LICENSE"
+      "url": "https://github.com/viteui/tinypng-lib/blob/master/LICENSE"
     }
   ]
 }
