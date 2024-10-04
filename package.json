@@ -1,6 +1,6 @@
 {
   "name": "tinypng-lib",
-  "version": "1.0.9",
+  "version": "1.0.12",
   "description": "",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,7 +12,8 @@
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "p": "node ./publish.js"
   },
   "files": [
     "dist",
