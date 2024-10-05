@@ -13,8 +13,11 @@
         <el-tab-pane label="WebWork" name="webwork">
           <WebWork />
         </el-tab-pane>
-        <el-tab-pane label="WebWork2" name="webwork2">
+        <!-- <el-tab-pane label="WebWork2" name="webwork2">
           <WebWork2 />
+        </el-tab-pane> -->
+        <el-tab-pane label="CompressWorker" name="compressWorker">
+          <WebWork3 />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -25,7 +28,7 @@
 import Base from './components/Base.vue';
 import WebWork from './components/WebWork.vue';
 import WebWork2 from './components/WebWork2.vue';
-import TinyPNG from 'tinypng-lib';
+import WebWork3 from './components/WebWork3.vue';
 
 
 
@@ -34,11 +37,12 @@ export default {
   components: {
     Base,
     WebWork,
-    WebWork2
+    WebWork2,
+    WebWork3
   },
   data() {
     return {
-      activeName: 'webwork2'
+      activeName: 'compressWorker'
     };
   },
   methods: {

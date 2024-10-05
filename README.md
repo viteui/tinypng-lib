@@ -1,4 +1,4 @@
-# TinyPNG图片压缩工具
+# TinyPNG图片压缩工具使用
 
 ![image-20241005120141325](https://cdn.jsdelivr.net/gh/viteui/viteui.github.io@web-image/web/image/202410051201463.png)
 
@@ -98,6 +98,11 @@ interface CompressResult {
 ```
 
 ## WebWorker中使用
+
+
+
+### 基本使用
+
 ![image-20241005120050296](https://cdn.jsdelivr.net/gh/viteui/viteui.github.io@web-image/web/image/202410051200510.png)
 1. webpack项目中安装`worker-loader`
 ```shell
@@ -150,12 +155,6 @@ import { getSizeTrans } from '../utils';
 import TinyPNG from 'tinypng-lib';
 export default {
   name: 'Base',
-  data() {
-    return {
-      imgUrl: '',
-      compressResult: {},
-    }
-  },
   mounted() {
     // Start the worker when the component is mounted
     this.worker = new ImageWorker();
@@ -167,16 +166,10 @@ export default {
       if (result.error) {
         console.error("Compression failed:", result.error);
       } else {
-        const url = URL.createObjectURL(result.blob);
-        this.imgUrl = url;
-        this.compressResult = result;
+        // 拿到压缩结果
+        console.log(e);
       }
     };
-
-    // Counter for the UI
-    setInterval(() => {
-      this.count++;
-    }, 500);
   },
   methods: {
     getSizeTrans,
@@ -184,7 +177,6 @@ export default {
       const file = e.file;
       // 获取图片信息
       const image = await TinyPNG.getImage(file);
-      this.compressing = true;
       // Send the file to the worker for compression
       this.worker.postMessage({
         image,
@@ -211,6 +203,78 @@ export default {
 ```js
 import TinyPNG from 'tinypng-lib';
 TinyPNG.compressJpegImage(file, options)
+```
+
+
+
+### CompressWorker 使用
+
+- 封装代码
+
+```js
+import ImageWorker from './imageWorker.worker.js'; // 与前面imageWorker.worker.js一致
+
+export class CompressWorker {
+    worker = null;
+    constructor() {
+        this.worker = new ImageWorker();
+    }
+    async compress(file, options) {
+        // 获取图片信息
+        const image = await TinyPNG.getImage(file);
+        return new Promise((resolve, reject) => {
+            // 监听worker的消息
+            this.worker.onmessage = (e) => {
+                const result = e.data;
+                if (result.error && !result.success) {
+                    console.error("Compression failed:", result.error);
+                    reject(result.error);
+                } else {
+                    resolve(result);
+                }
+            };
+            // Send the file to the worker for compression
+            this.worker.postMessage({
+                image,
+                options
+            });
+
+        });
+    }
+
+    terminate() {
+        if (this.worker) {
+            this.worker.terminate();
+            this.worker = null;
+        }
+
+    }
+}
+
+```
+
+- 使用
+  - 实例化：`CompressWorker`只注册一次就行，比如vue的mounted生命周期
+  - 图片压缩
+  - 页面或者组件卸载的时候执行, 销毁 `CompressWorker` 实例
+
+```js
+// 1. 只注册一次就行，比如vue的mounted生命周期
+compressWorker = new CompressWorker();
+
+// 2. 监听选择的图片，图片压缩
+compressWorker.compress(file, {
+  minimumQuality: 30,
+  quality: 85
+}).then((result) => {
+  // 压缩结果
+  console.log(result);
+})
+
+// 3. 页面或者组件卸载的时候执行, 销毁webworker
+if (compressWorker) {
+  compressWorker.terminate();
+}
 ```
 
 
