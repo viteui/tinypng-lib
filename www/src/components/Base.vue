@@ -36,8 +36,10 @@
 
 <script>
 
-import TinyPNG from 'tinypng-lib'
-import { getSizeTrans } from '../utils'
+// import TinyPNG from 'tinypng-lib'
+// import TinyPNG from 'tinypng-lib';
+import TinyPNG from '../../../dist';
+import { getSizeTrans } from '../utils';
 
 
 export default {
@@ -66,14 +68,12 @@ export default {
             return true
         },
         async uploadImg(e) {
-            console.log('e', e)
             const file = e.file;
             try {
                 const res = await TinyPNG.compress(file, {
                     minimumQuality: 35,
-                    quality: 88
+                    quality: 50
                 })
-                console.log('res', res)
                 const url = URL.createObjectURL(res.blob)
                 const img = new Image()
                 this.imgUrl = url;

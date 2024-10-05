@@ -137,30 +137,31 @@ const uint8ArrayToFile = (uint8Array: BlobPart, fileName?: string): { file: File
     };
 }
 
-const bolbToFile = (blob: Blob, fileName?: string): File => {
+const blobToFile = (blob: Blob, fileName?: string): File => {
     return new File([blob], fileName || `${Date.now()}.png`, { type: 'image/png', lastModified: Date.now() })
 }
 
-const fileToBlob = (file: File): Promise<Blob> => {
+function fileToBlob(file: File): Promise<Blob> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = function (e) {
-            const result = e.target?.result;
-            if (result && typeof result == "object") {
-                resolve(new Blob([result], { type: file.type }));
-            } else {
-                reject(new Error("文件转换失败"));
-            }
+
+        reader.onload = () => {
+            const arrayBuffer = reader.result as ArrayBuffer;
+            const blob = new Blob([arrayBuffer], { type: file.type });
+            resolve(blob);
         };
-        reader.onerror = function (e) {
-            reject(e);
-        }
-    })
-};
+
+        reader.onerror = () => {
+            reject(new Error('File reading failed'));
+        };
+
+        reader.readAsArrayBuffer(file);
+    });
+}
 
 
 export const compressJpeg = async (file: File, options: CompressOptions = {}): Promise<{
-    bolb: Blob,
+    blob: Blob,
 }> => {
     return new Promise(async (resolve) => {
         new CompressorJpeg(file, {
@@ -170,12 +171,12 @@ export const compressJpeg = async (file: File, options: CompressOptions = {}): P
             // which means you have to access the `result` in the `success` hook function.
             success(result) {
                 resolve({
-                    bolb: result as Blob,
+                    blob: result as Blob,
                 })
             },
             error(err) {
                 resolve({
-                    bolb: file,
+                    blob: file,
                 })
             },
         });
@@ -226,11 +227,24 @@ class TinyPNG {
         // 计算质量 1-100 转化成 0-1
         const quality = (options?.quality || 88) / 100;
         const {
-            bolb,
+            blob,
         } = await compressJpeg(file, {
             quality,
         });
-        const compressFile = bolbToFile(bolb, options.fileName || file.name);
+        // 如果 bold 是File类型，则直接返回 ，如果是 blob类型，则转换成File类型
+        if (blob instanceof File) {
+            return {
+                success: true,
+                file: blob,
+                originalSize: file.size,
+                compressedSize: blob.size,
+                rate: blob.size / file.size,
+                rateString: `${(blob.size / file.size * 100).toFixed(2)}%`,
+                blob: await fileToBlob(blob),
+                options
+            }
+        }
+        const compressFile = blobToFile(blob, options.fileName || file.name);
         return {
             success: true,
             file: compressFile,
@@ -238,7 +252,8 @@ class TinyPNG {
             compressedSize: compressFile.size,
             rate: compressFile.size / file.size,
             rateString: `${(compressFile.size / file.size * 100).toFixed(2)}%`,
-            bolb,
+            blob,
+            options
         };
 
     }
@@ -257,7 +272,6 @@ class TinyPNG {
     }> {
         if (!file) throw new Error("file can not be null");
         if (!file.type.includes("image/")) throw new Error("file must be image");
-
         try {
             if (["image/jpeg", "image/jpg"].includes(file.type)) {
                 return await this.compressJpegImage(file, options)
@@ -300,8 +314,8 @@ class TinyPNG {
             compressedSize: outputFile.size,
             rate: rate,
             blob,
-            rateString: `${(rate * 100).toFixed(2)}%`
-
+            rateString: `${(rate * 100).toFixed(2)}%`,
+            options
         }
     }
 
@@ -327,6 +341,7 @@ class TinyPNG {
      */
     getImage = getImageData
 
+    fileToBlob = fileToBlob
 }
 
 export default new TinyPNG();
