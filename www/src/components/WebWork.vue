@@ -1,14 +1,15 @@
 <template>
   <div>
-    <h4>tinypng webwork</h4>
-    <div style="display: flex;">
+    <el-alert title="使用webwork进行图片压缩, 不阻塞主线程, 大文件压缩时体验更好" type="success" :closable="false">
+    </el-alert>
+    <div style="display: flex; margin-top: 10px;">
       <el-upload class="upload-demo" drag :multiple="false" :http-request="uploadImg" :show-file-list="false"
         action="/">
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
         <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
       </el-upload>
-      <div style="display: flex;">
+      <div style="display: flex;" v-loading="compressing">
         <el-image style="margin-left: 40px; width: 180px; height: 180px; flex-shrink:0 ;" :src="imgUrl"
           :preview-src-list="[imgUrl]" fit="contain">
         </el-image>
@@ -43,7 +44,8 @@ export default {
     return {
       imgUrl: '',
       compressResult: {},
-      count: 0
+      count: 0,
+      compressing: false,
     }
   },
   mounted() {
@@ -52,6 +54,7 @@ export default {
 
     // Receive the message (compressed result) from the worker
     this.worker.onmessage = (e) => {
+      this.compressing = false;
       const result = e.data;
       if (result.error) {
         console.error("Compression failed:", result.error);
@@ -71,9 +74,8 @@ export default {
     getSizeTrans,
     async uploadImg(e) {
       const file = e.file;
-      console.log(file, TinyPNG);
       const image = await TinyPNG.getImage(file);
-      console.log(image);
+      this.compressing = true;
       // Send the file to the worker for compression
       this.worker.postMessage({
         image,

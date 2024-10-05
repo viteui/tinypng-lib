@@ -5373,10 +5373,10 @@ tinypng-lib-wasm@^1.0.50:
   resolved "https://registry.yarnpkg.com/tinypng-lib-wasm/-/tinypng-lib-wasm-1.0.52.tgz#f84190ad6d4ad1d25a6dc32579f262e8eedee317"
   integrity sha512-0K63QaO/GuSPwQGPdZIPTZvavSkNp0jiceHFzOofAhhBF76+lZBjYmE97KxB2tqdF3NK3uLu18OW7wSfHzPwYA==
 
-tinypng-lib@1.0.42:
-  version "1.0.42"
-  resolved "https://registry.yarnpkg.com/tinypng-lib/-/tinypng-lib-1.0.42.tgz#3764a6b4e5f5f5566772bcbe16b385a8e178e020"
-  integrity sha512-G1I3vnTjzKtNmq/njujL9pRCuUDhwFJYgTc6Z1TQ7SPLCD/9jNR1V6Pujosp4WZKUanBzYkmHqxDe4qplOR/fg==
+tinypng-lib@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/tinypng-lib/-/tinypng-lib-1.1.1.tgz#f44e6e949bfd7e979c39b1f0164de4435769b861"
+  integrity sha512-zDWPnM4plve/10h/KgKR0eRYpyMwcrZsAKFFHsocwemkJJTa401Qfua5XSd/kJlkBYMEpBBT21iCT39JVqM2UA==
   dependencies:
     tinypng-lib-wasm "^1.0.50"
 

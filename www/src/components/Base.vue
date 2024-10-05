@@ -1,6 +1,9 @@
 <template>
     <div>
-        <div style="display: flex;">
+        <el-alert title="主线程压缩时大文件会卡住，需要控制文件大小，如需要压缩大文件建议使用web worker" type="info" :closable="false">
+        </el-alert>
+
+        <div style="display: flex; margin-top: 10px">
             <el-upload class="upload-demo" drag :multiple="false" :http-request="uploadImg" :show-file-list="false"
                 action="/">
                 <i class="el-icon-upload"></i>
