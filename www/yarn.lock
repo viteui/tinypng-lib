@@ -2046,6 +2046,11 @@ bluebird@^3.1.1:
   resolved "https://registry.npmmirror.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
 
+blueimp-canvas-to-blob@^3.29.0:
+  version "3.29.0"
+  resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.29.0.tgz#d965f06cb1a67fdae207a2be56683f55ef531466"
+  integrity sha512-0pcSSGxC0QxT+yVkivxIqW0Y4VlO2XSDPofBAqoJ1qJxgH9eiUDLv50Rixij2cDuEfx4M6DpD9UGZpRhT5Q8qg==
+
 body-parser@1.20.3:
   version "1.20.3"
   resolved "https://registry.npmmirror.com/body-parser/-/body-parser-1.20.3.tgz#1953431221c6fb5cd63c4b36d53fab0928e548c6"
@@ -2367,6 +2372,14 @@ compression@^1.7.4:
     on-headers "~1.0.2"
     safe-buffer "5.1.2"
     vary "~1.1.2"
+
+compressorjs@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/compressorjs/-/compressorjs-1.2.1.tgz#4dee18ef5032f8166bd0a3258f045eda2cd07671"
+  integrity sha512-+geIjeRnPhQ+LLvvA7wxBQE5ddeLU7pJ3FsKFWirDw6veY3s9iLxAQEw7lXGHnhCJvBujEQWuNnGzZcvCvdkLQ==
+  dependencies:
+    blueimp-canvas-to-blob "^3.29.0"
+    is-blob "^2.1.0"
 
 concat-map@0.0.1:
   version "0.0.1"
@@ -3505,6 +3518,11 @@ is-binary-path@~2.1.0:
   integrity sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw==
   dependencies:
     binary-extensions "^2.0.0"
+
+is-blob@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/is-blob/-/is-blob-2.1.0.tgz#e36cd82c90653f1e1b930f11baf9c64216a05385"
+  integrity sha512-SZ/fTft5eUhQM6oF/ZaASFDEdbFVe89Imltn9uZr03wdKMcWNVYSMjQPFtg05QuNkt5l5c135ElvXEQG0rk4tw==
 
 is-core-module@^2.13.0:
   version "2.15.1"
@@ -5373,11 +5391,12 @@ tinypng-lib-wasm@^1.0.50:
   resolved "https://registry.yarnpkg.com/tinypng-lib-wasm/-/tinypng-lib-wasm-1.0.52.tgz#f84190ad6d4ad1d25a6dc32579f262e8eedee317"
   integrity sha512-0K63QaO/GuSPwQGPdZIPTZvavSkNp0jiceHFzOofAhhBF76+lZBjYmE97KxB2tqdF3NK3uLu18OW7wSfHzPwYA==
 
-tinypng-lib@1.1.16:
-  version "1.1.16"
-  resolved "https://registry.yarnpkg.com/tinypng-lib/-/tinypng-lib-1.1.16.tgz#4caab4cda7ccc98bd89864c2328d6fdc75099109"
-  integrity sha512-j8h3YpkhCCKfkCFsgqelWiWMy+Y8bDYh64QZvvTPaxSGOkVwlBfSU3pZCv3JlPdr7oLyPnmhzYdYl1kqGbq+MQ==
+tinypng-lib@1.1.19:
+  version "1.1.19"
+  resolved "https://registry.yarnpkg.com/tinypng-lib/-/tinypng-lib-1.1.19.tgz#c0a684a2b63acc758c66b240aea8a4e93e72ebb4"
+  integrity sha512-VwmOZcjJ86Ik44o1nJPtUJ0SS9gbIbLHj5W+ZhkIhpPHBYNQzYqXpRValls9Jz/P/wIaSkigf0QIIq4/KPaPxg==
   dependencies:
+    compressorjs "^1.2.1"
     tinypng-lib-wasm "^1.0.50"
 
 to-fast-properties@^2.0.0:

@@ -138,6 +138,21 @@ const uint8ArrayToFile = (uint8Array: BlobPart, fileName?: string): { file: File
 }
 
 
+const fileToBlob = (file: File): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            if (reader.result && typeof reader.result == "object") {
+                resolve(new Blob([reader.result], { type: file.type }));
+            }
+        };
+        reader.onerror = function (e) {
+
+        }
+    })
+};
+
+
 export const compressJpeg = async (file: File, options: CompressOptions = {}): Promise<{
     file: File,
 }> => {
@@ -215,7 +230,8 @@ class TinyPNG {
             originalSize: file.size,
             compressedSize: compressFile.size,
             rate: compressFile.size / file.size,
-            rateString: `${(compressFile.size / file.size * 100).toFixed(2)}%`
+            rateString: `${(compressFile.size / file.size * 100).toFixed(2)}%`,
+            bolb: await fileToBlob(compressFile),
         };
 
     }
@@ -272,7 +288,7 @@ class TinyPNG {
         return {
             success: true,
             file: outputFile,
-            output,
+            // output,
             originalSize,
             compressedSize: outputFile.size,
             rate: rate,
