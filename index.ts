@@ -263,7 +263,7 @@ class TinyPNG {
      * @param options 
      * @returns 
      */
-    async compressWorkerImage(image: Image, options: { quality?: number, fileName?: string }) {
+    async compressWorkerImage(image: Image, options: CompressOptions) {
         // 只支持png
         if (image.type !== "image/png") {
             throw new Error("只支持png格式, jpeg，jpg请在主线程使用compressJpegImage方法")

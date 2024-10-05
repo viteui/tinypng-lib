@@ -35,9 +35,41 @@
 <script>
 // Import the worker
 import ImageWorker from './imageWorker.worker.js'; // This is the bundled worker
-import { getSizeTrans } from '../utils';
+import { getSizeTrans } from '../utils/index.js';
 import TinyPNG from 'tinypng-lib';
 
+class ImageComppress {
+  worker = null;
+  constructor(onmessage) {
+    this.worker = new ImageWorker();
+    this.worker.onmessage = (e) => {
+      const result = e.data;
+      if (result.error && !result.success) {
+        console.error("Compression failed:", result.error);
+      } else {
+        onmessage(result);
+      }
+    };
+  }
+
+  async postMessage(file, options) {
+    // 获取图片信息
+    const image = await TinyPNG.getImage(file);
+    // Send the file to the worker for compression
+    this.worker.postMessage({
+      image,
+      options
+    });
+  }
+
+  terminate() {
+    if (this.worker) {
+      this.worker.terminate();
+      this.worker = null;
+    }
+
+  }
+}
 
 export default {
   name: 'Base',
@@ -50,23 +82,12 @@ export default {
     }
   },
   mounted() {
-    // Start the worker when the component is mounted
-    this.worker = new ImageWorker();
-
-    // Receive the message (compressed result) from the worker
-    this.worker.onmessage = (e) => {
+    this.worker = new ImageComppress((result) => {
       this.compressing = false;
-      const result = e.data;
-      if (result.error && !result.success) {
-        console.error("Compression failed:", result.error);
-      } else {
-        const url = URL.createObjectURL(result.blob);
-        this.imgUrl = url;
-        this.compressResult = result;
-      }
-    };
-
-    console.log('worker', this.worker);
+      const url = URL.createObjectURL(result.blob);
+      this.imgUrl = url;
+      this.compressResult = result;
+    });
 
     // Counter for the UI
     setInterval(() => {
@@ -76,17 +97,11 @@ export default {
   methods: {
     getSizeTrans,
     async uploadImg(e) {
-      const file = e.file;
-      // 获取图片信息
-      const image = await TinyPNG.getImage(file);
       this.compressing = true;
       // Send the file to the worker for compression
-      this.worker.postMessage({
-        image,
-        options: {
-          minimumQuality: 30,
-          quality: 85
-        }
+      this.worker.postMessage(e.file, {
+        minimumQuality: 30,
+        quality: 85
       });
     }
   },
