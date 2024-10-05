@@ -71,7 +71,7 @@ export default {
     getSizeTrans,
     async uploadImg(e) {
       const file = e.file;
-      console.log(file);
+      console.log(file, TinyPNG);
       const image = await TinyPNG.getImage(file);
       console.log(image);
       // Send the file to the worker for compression
