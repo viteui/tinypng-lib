@@ -1,8 +1,15 @@
-# 图片压缩工具
+# TinyPNG图片压缩工具
+
+![image-20241005120141325](https://cdn.jsdelivr.net/gh/viteui/viteui.github.io@web-image/web/image/202410051201463.png)
+
+
+
 
 ## 介绍
 - 基于`tinypng`的图片压缩工具，支持图片压缩功能。
 - 使用客户端压缩图片，无需上传到服务器，直接在客户端进行压缩。
+- 支持WebWork
+- npm：[tinypng-lib](https://www.npmjs.com/package/tinypng-lib)
 
 ## 使用方法
 - 安装
@@ -50,8 +57,14 @@ export default {
 </script>
 ```
 
-
 ## 参数说明
+
+| 参数           | 说明                  | 默认值   |
+| :------------- | --------------------- | -------- |
+| minimumQuality | 最小质量              | 35       |
+| quality        | 期望压缩质量（0-100） | 88       |
+| fileName       | 压缩后的文件名        | 文件名称 |
+
 
 ```ts
 /**
@@ -59,7 +72,7 @@ export default {
  */
 interface CompressOptions {
     minimumQuality?: number; // 最小质量
-    quality?: number; // 压缩质量 0 - 1
+    quality?: number; // 压缩质量 0 - 100
     fileName?: string; // 压缩后的文件名, 默认为file.name
 }
 
@@ -85,6 +98,7 @@ interface CompressResult {
 ```
 
 ## WebWorker中使用
+![image-20241005120050296](https://cdn.jsdelivr.net/gh/viteui/viteui.github.io@web-image/web/image/202410051200510.png)
 1. webpack项目中安装`worker-loader`
 ```shell
 npm install worker-loader
@@ -114,6 +128,7 @@ self.onmessage = async function (e) {
         options
     } = e.data;
     try {
+      	// 使用支持webWorker的方法
         const result = await TinyPNG.compressWorkerImage(image, options);
         self.postMessage(result);
     } catch (error) {
@@ -139,8 +154,6 @@ export default {
     return {
       imgUrl: '',
       compressResult: {},
-      count: 0,
-      compressing: false,
     }
   },
   mounted() {
@@ -193,5 +206,15 @@ export default {
 
 ```
 
+5. 说明：对于jpeg、jpg的图片不支持使用WebWorker压缩需要使用`TinyPNG.compressJpegImage` 进行压缩
+
+```js
+import TinyPNG from 'tinypng-lib';
+TinyPNG.compressJpegImage(file, options)
+```
+
+
+
 ## 注意事项
+
 - 请确保已经安装了`tinypng-lib`模块
