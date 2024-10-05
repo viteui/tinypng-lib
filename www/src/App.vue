@@ -13,9 +13,9 @@
           <el-tab-pane label="WebWork" name="webwork">
             <WebWork />
           </el-tab-pane>
-          <!-- <el-tab-pane label="WebWork2" name="webwork2">
-          <WebWork2 />
-        </el-tab-pane> -->
+          <el-tab-pane label="jpeg/jpg" name="jpeg">
+            <Jpeg />
+          </el-tab-pane>
           <el-tab-pane label="CompressWorker" name="compressWorker">
             <CompressWorker />
           </el-tab-pane>
@@ -32,7 +32,7 @@
 <script>
 import Base from './components/Base.vue';
 import WebWork from './components/WebWork.vue';
-import WebWork2 from './components/WebWork2.vue';
+import Jpeg from './components/Jpeg.vue';
 import CompressWorker from './components/CompressWorker.vue';
 
 
@@ -42,7 +42,7 @@ export default {
   components: {
     Base,
     WebWork,
-    WebWork2,
+    Jpeg,
     CompressWorker
   },
   data() {
@@ -65,4 +65,4 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-</style>./components/CompressWorker.vue
+</style>./components/CompressWorker.vue./components/Jpeg.vue

@@ -1,6 +1,6 @@
 {
   "name": "tinypng-lib",
-  "version": "1.1.17",
+  "version": "1.1.18",
   "description": "tinypng图片压缩库，基于tinypng-lib-wasm，开箱即用，压缩图片",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -37,6 +37,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "compressorjs": "^1.2.1",
     "tinypng-lib-wasm": "^1.0.50"
   },
   "devDependencies": {

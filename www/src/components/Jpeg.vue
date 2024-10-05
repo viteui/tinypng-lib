@@ -33,50 +33,8 @@
   </div>
 </template>
 <script>
-// Import the worker
-import ImageWorker from './imageWorker.worker.js'; // This is the bundled worker
+import CompressorJpeg from 'compressorjs';
 import { getSizeTrans } from '../utils/index.js';
-import TinyPNG from 'tinypng-lib';
-
-class ImageComppress {
-  worker = null;
-  onmessageHook = null;
-  constructor(func) {
-    this.worker = new ImageWorker();
-    this.worker.onmessage = (e) => {
-      const result = e.data;
-      if (result.error && !result.success) {
-        console.error("Compression failed:", result.error);
-      } else {
-        func(result);
-      }
-    };
-  }
-
-  onmessage(func) {
-    this.onmessageHook = func;
-  }
-
-  async postMessage(file, options) {
-    // 获取图片信息
-    const image = await TinyPNG.getImage(file);
-    this.compressing = true;
-    // Send the file to the worker for compression
-    this.worker.postMessage({
-      image,
-      options
-    });
-  }
-
-  terminate() {
-    if (this.worker) {
-      this.worker.terminate();
-      this.worker = null;
-    }
-
-  }
-}
-
 export default {
   name: 'Base',
   data() {
@@ -88,29 +46,19 @@ export default {
     }
   },
   mounted() {
-    this.worker = new ImageComppress();
-    this.worker.onmessage((result) => {
-      this.compressing = false;
-      const url = URL.createObjectURL(result.blob);
-      this.imgUrl = url;
-      this.compressResult = result;
-    });
 
-
-    // Counter for the UI
-    setInterval(() => {
-      this.count++;
-    }, 500);
   },
   methods: {
     getSizeTrans,
     async uploadImg(e) {
-      this.compressing = true;
-      // Send the file to the worker for compression
-      this.worker.postMessage(e.file, {
-        minimumQuality: 30,
-        quality: 85
-      });
+
+      new CompressorJpeg(e.file, {
+        quality: 0.6,
+        success: (file) => {
+          console.log(file)
+        }
+      }
+      )
     }
   },
   beforeDestroy() {

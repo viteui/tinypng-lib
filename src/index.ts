@@ -1,6 +1,6 @@
 import { ImagequantImage, Imagequant } from 'tinypng-lib-wasm'
 import { CompressOptions, CompressResult, ImageData } from './type.d';
-
+import CompressorJpeg from 'compressorjs';
 const canvastoFile = (
     canvas: HTMLCanvasElement,
     type: string,
@@ -102,6 +102,30 @@ const uint8ArrayToFile = (uint8Array: BlobPart, fileName?: string): { file: File
 }
 
 
+export const compressJpeg = async (file: File, options: CompressOptions = {}): Promise<{
+    file: File,
+}> => {
+    return new Promise(async (resolve, reject) => {
+
+        new Compressor(file, {
+            quality: options.quality,
+            convertSize: Number.MAX_SAFE_INTEGER,
+            // The compression process is asynchronous,
+            // which means you have to access the `result` in the `success` hook function.
+            success(result) {
+                resolve({
+                    file: result as File,
+                })
+            },
+            error(err) {
+                resolve({
+                    file: file,
+                })
+            },
+        });
+    })
+}
+
 
 class TinyPNG {
     /**
@@ -143,12 +167,12 @@ class TinyPNG {
         if (!["image/jpeg", "image/jpg"].includes(file.type)) {
             throw new Error("file must be jpeg or jpg");
         }
+        // 计算质量 1-100 转化成 0-1
+        const quality = (options?.quality || 88) / 100;
         const {
             file: compressFile,
-            blob,
-        } = await this._compressJpegImage(file, {
-            ...options,
-            fileName: options.fileName || file.name
+        } = await compressJpeg(file, {
+            quality,
         });
         return {
             success: true,
@@ -156,8 +180,6 @@ class TinyPNG {
             originalSize: file.size,
             compressedSize: compressFile.size,
             rate: compressFile.size / file.size,
-            blob: blob,
-            output: await blob.arrayBuffer(),
             rateString: `${(compressFile.size / file.size * 100).toFixed(2)}%`
         };
     }
