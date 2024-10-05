@@ -10,6 +10,7 @@
 - 使用客户端压缩图片，无需上传到服务器，直接在客户端进行压缩。
 - 支持WebWork
 - npm：[tinypng-lib](https://www.npmjs.com/package/tinypng-lib)
+- 在线体验地址：[https://tinypng.wcrane.cn/](https://tinypng.wcrane.cn/)
 
 ## 使用方法
 - 安装

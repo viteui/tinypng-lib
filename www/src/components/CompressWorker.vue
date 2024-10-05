@@ -57,6 +57,7 @@ export default {
   methods: {
     getSizeTrans,
     async uploadImg(e) {
+      this.compressing = true;
       this.compressWorker.compress(e.file, {
         minimumQuality: 30,
         quality: 85

@@ -1,6 +1,6 @@
 {
   "name": "tinypng-lib",
-  "version": "1.1.16",
+  "version": "1.1.17",
   "description": "tinypng图片压缩库，基于tinypng-lib-wasm，开箱即用，压缩图片",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
