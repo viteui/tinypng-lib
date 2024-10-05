@@ -1,6 +1,42 @@
 import { ImagequantImage, Imagequant } from 'tinypng-lib-wasm'
-import { CompressOptions, CompressResult, ImageData } from './type.d';
+// import { CompressOptions, CompressResult, ImageData } from './type';
 import CompressorJpeg from 'compressorjs';
+
+
+/**
+ *  压缩配置
+ */
+export interface CompressOptions {
+    minimumQuality?: number,
+    quality?: number,
+    fileName?: string, // 压缩后文件名
+}
+
+/**
+ * 压缩图片结果
+ */
+export interface CompressResult {
+    success: boolean, // 是否成功
+    file: File, // 压缩后的文件
+    originalSize: number, // 原始文件大小
+    compressedSize: number, // 压缩后文件大小
+    rate: number, // 压缩率（压缩为原来的%）
+    output?: ArrayBuffer, // 压缩后的 ArrayBuffer
+    blob?: Blob, // 压缩后的 Blob
+    rateString: string, // 压缩率字符串
+
+}
+
+export interface ImageData {
+    width: number,
+    height: number,
+    size: number,
+    buffer: ArrayBuffer,
+    type: string,
+    name?: string,
+}
+
+
 const canvastoFile = (
     canvas: HTMLCanvasElement,
     type: string,
@@ -105,9 +141,8 @@ const uint8ArrayToFile = (uint8Array: BlobPart, fileName?: string): { file: File
 export const compressJpeg = async (file: File, options: CompressOptions = {}): Promise<{
     file: File,
 }> => {
-    return new Promise(async (resolve, reject) => {
-
-        new Compressor(file, {
+    return new Promise(async (resolve) => {
+        new CompressorJpeg(file, {
             quality: options.quality,
             convertSize: Number.MAX_SAFE_INTEGER,
             // The compression process is asynchronous,
@@ -165,7 +200,7 @@ class TinyPNG {
     async compressJpegImage(file: File, options: CompressOptions = {}) {
         if (!file) throw new Error("file can not be null");
         if (!["image/jpeg", "image/jpg"].includes(file.type)) {
-            throw new Error("file must be jpeg or jpg");
+            throw new Error("file must be jpeg or jpg")
         }
         // 计算质量 1-100 转化成 0-1
         const quality = (options?.quality || 88) / 100;
@@ -182,6 +217,7 @@ class TinyPNG {
             rate: compressFile.size / file.size,
             rateString: `${(compressFile.size / file.size * 100).toFixed(2)}%`
         };
+
     }
     /**
      *  压缩图片
@@ -208,11 +244,10 @@ class TinyPNG {
                     fileName: options.fileName || file.name
                 });
             }
-
         } catch (error) {
             return {
                 success: false,
-                error
+                error: error as Error
             }
         }
 
