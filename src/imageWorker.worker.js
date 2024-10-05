@@ -15,3 +15,5 @@ self.onmessage = async function (e) {
         self.postMessage({ error: error.message });
     }
 };
+
+export default self;

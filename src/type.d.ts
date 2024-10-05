@@ -23,7 +23,7 @@ export interface CompressResult {
 
 }
 
-export interface Image {
+export interface ImageData {
     width: number,
     height: number,
     size: number,

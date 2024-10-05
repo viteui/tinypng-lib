@@ -1,5 +1,5 @@
 import { ImagequantImage, Imagequant } from 'tinypng-lib-wasm'
-import { CompressOptions, CompressResult, Image } from './type';
+import { CompressOptions, CompressResult, ImageData } from './type.d';
 
 const canvastoFile = (
     canvas: HTMLCanvasElement,
@@ -38,7 +38,7 @@ function fileToDataURL(file: File): Promise<string> {
     });
 }
 
-const getImageData = (file: File): Promise<Image> => {
+const getImageData = (file: File): Promise<ImageData> => {
     return new Promise((resolve, reject) => {
 
         // 创建一个 Image 对象
@@ -196,7 +196,7 @@ class TinyPNG {
 
     }
 
-    async compressPngImage(imageData: Image, options: CompressOptions) {
+    async compressPngImage(imageData: ImageData, options: CompressOptions) {
         if (!imageData) throw new Error("imageData can not be null");
         if (!imageData.type.includes("image/png")) throw new Error("imageData must be png");
         const {
@@ -232,7 +232,7 @@ class TinyPNG {
      * @param options 
      * @returns 
      */
-    async compressWorkerImage(image: Image, options: CompressOptions) {
+    async compressWorkerImage(image: ImageData, options: CompressOptions) {
         // 只支持png
         if (image.type !== "image/png") {
             throw new Error("只支持png格式, jpeg，jpg请在主线程使用compressJpegImage方法")
