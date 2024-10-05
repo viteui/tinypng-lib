@@ -18,7 +18,7 @@ export default {
     },
     // 发布后执行
     after(config) {
-        // console.log(config)
+        console.log(config)
     },
     // git tag 格式
     gitTagFormat: (version) => {
