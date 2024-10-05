@@ -10,15 +10,15 @@
         <el-tab-pane label="基础使用" name="base">
           <Base />
         </el-tab-pane>
-        <!-- <el-tab-pane label="WebWork" name="webwork">
+        <el-tab-pane label="WebWork" name="webwork">
           <WebWork />
-        </el-tab-pane> -->
-        <el-tab-pane label="WebWork2" name="webwork2">
-          <WebWork2 />
         </el-tab-pane>
-        <!-- <el-tab-pane label="CompressWorker" name="compressWorker">
-          <WebWork3 />
+        <!-- <el-tab-pane label="WebWork2" name="webwork2">
+          <WebWork2 />
         </el-tab-pane> -->
+        <el-tab-pane label="CompressWorker" name="compressWorker">
+          <CompressWorker />
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -28,7 +28,7 @@
 import Base from './components/Base.vue';
 import WebWork from './components/WebWork.vue';
 import WebWork2 from './components/WebWork2.vue';
-import WebWork3 from './components/WebWork3.vue';
+import CompressWorker from './components/CompressWorker.vue';
 
 
 
@@ -38,7 +38,7 @@ export default {
     Base,
     WebWork,
     WebWork2,
-    WebWork3
+    CompressWorker
   },
   data() {
     return {
@@ -60,4 +60,4 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-</style>
+</style>./components/CompressWorker.vue

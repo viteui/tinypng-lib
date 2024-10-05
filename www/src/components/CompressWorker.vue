@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-alert title="使用webwork进行图片压缩, 不阻塞主线程, 大文件压缩时体验更好" type="success" :closable="false">
+    <el-alert title="使用webwork进行图片压缩, 不阻塞主线程, 大文件压缩时体验更好(CompressWorker类封装)" type="success" :closable="false">
     </el-alert>
     <div style="display: flex; margin-top: 10px;">
       <el-upload class="upload-demo" drag :multiple="false" :http-request="uploadImg" :show-file-list="false"

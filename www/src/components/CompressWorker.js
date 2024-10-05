@@ -1,4 +1,4 @@
-import ImageWorker from './imageWorker1.worker.js';
+import ImageWorker from './imageWorker.worker.js';
 import TinyPNG from 'tinypng-lib';
 export class CompressWorker {
     worker = null;
