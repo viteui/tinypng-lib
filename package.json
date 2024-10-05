@@ -17,7 +17,8 @@
   },
   "files": [
     "dist",
-    "tinypng-lib-wasm.d.ts"
+    "tinypng-lib-wasm.d.ts",
+    "src/imageWorker.worker.js"
   ],
   "keywords": [
     "tinypng",

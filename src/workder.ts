@@ -1,14 +1,17 @@
+
+// @ts-ignore
 import ImageWorker from './imageWorker.worker.js';
-import TinyPNG from 'tinypng-lib';
+import TinyPNG from './index'
 export class CompressWorker {
-    worker = null;
+    worker: Worker | null;
     constructor() {
         this.worker = new ImageWorker();
     }
-    async compress(file, options) {
+    async compress(file: File, options: CompositeOperation) {
         // 获取图片信息
         const image = await TinyPNG.getImage(file);
         return new Promise((resolve, reject) => {
+            if (!this.worker) return;
             // 监听worker的消息
             this.worker.onmessage = (e) => {
                 const result = e.data;
