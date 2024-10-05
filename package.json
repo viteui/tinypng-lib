@@ -1,6 +1,6 @@
 {
   "name": "tinypng-lib",
-  "version": "1.0.39",
+  "version": "1.0.40",
   "description": "tinypng图片压缩库，基于tinypng-lib-wasm，开箱即用，压缩图片",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -41,7 +41,7 @@
   "devDependencies": {
     "tsup": "^8.3.0",
     "typescript": "^4.7.3",
-    "wcrane-tool": "^1.0.34"
+    "wcrane-tool": "^1.0.35"
   },
   "repository": {
     "type": "git",
