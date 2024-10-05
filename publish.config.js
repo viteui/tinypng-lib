@@ -1,4 +1,6 @@
-export default{
+import { execSync } from "child_process"
+
+export default {
     // 发布目录
     root: ".",
     // 是否同步git
@@ -12,6 +14,7 @@ export default{
     // 发布前执行
     before(config) {
         // console.log(config)
+        execSync(`npm run build`)
     },
     // 发布后执行
     after(config) {

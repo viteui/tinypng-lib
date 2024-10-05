@@ -5368,17 +5368,17 @@ thunky@^1.0.2:
   resolved "https://registry.npmmirror.com/thunky/-/thunky-1.1.0.tgz#5abaf714a9405db0504732bbccd2cedd9ef9537d"
   integrity sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==
 
-tinypng-lib-wasm@^1.0.2:
-  version "1.0.50"
-  resolved "https://registry.yarnpkg.com/tinypng-lib-wasm/-/tinypng-lib-wasm-1.0.50.tgz#838ac8e5fd22f910c7186f373af024107c87606a"
-  integrity sha512-vc+R/FQ0TKu04oiWVkep+MMMkZmadCFf/GBtrSdMglL9/UFAY+nEwsRzokLregs/pTNfOSI6o3hGXj0tsXu93w==
+tinypng-lib-wasm@^1.0.50:
+  version "1.0.52"
+  resolved "https://registry.yarnpkg.com/tinypng-lib-wasm/-/tinypng-lib-wasm-1.0.52.tgz#f84190ad6d4ad1d25a6dc32579f262e8eedee317"
+  integrity sha512-0K63QaO/GuSPwQGPdZIPTZvavSkNp0jiceHFzOofAhhBF76+lZBjYmE97KxB2tqdF3NK3uLu18OW7wSfHzPwYA==
 
-tinypng-lib@^1.0.38:
-  version "1.0.38"
-  resolved "https://registry.yarnpkg.com/tinypng-lib/-/tinypng-lib-1.0.38.tgz#6759171f9bbcc50148490db31868c7df9e4e6ba2"
-  integrity sha512-GMS+H5eEkqPtyGOuIovpE6RT5Zp2Cmw171FiOCgC4b+PqCmiYI+hzVzF3mCokfKYGxc64sTyS/V3+VLYB9rW0Q==
+tinypng-lib@1.0.41:
+  version "1.0.41"
+  resolved "https://registry.yarnpkg.com/tinypng-lib/-/tinypng-lib-1.0.41.tgz#85803751904b95bad29ab25b77d1a7b9e0d94734"
+  integrity sha512-lP6wOCDF4qnH2KygW016Er71SgIK2VsVtHYj7dzsvjvVsPW5stPvVK/8YqEsFhWjiouQKU6ZR1+0NMbFL5SWzQ==
   dependencies:
-    tinypng-lib-wasm "^1.0.2"
+    tinypng-lib-wasm "^1.0.50"
 
 to-fast-properties@^2.0.0:
   version "2.0.0"

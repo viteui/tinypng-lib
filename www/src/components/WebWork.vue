@@ -36,7 +36,7 @@
 // Import the worker
 import ImageWorker from './imageWorker.worker.js'; // This is the bundled worker
 import { getSizeTrans } from '../utils';
-
+import TinyPNG from 'tinypng-lib';
 export default {
   name: 'Base',
   data() {
@@ -71,8 +71,17 @@ export default {
     getSizeTrans,
     async uploadImg(e) {
       const file = e.file;
+      console.log(file);
+      const image = await TinyPNG.getImage(file);
+      console.log(image);
       // Send the file to the worker for compression
-      this.worker.postMessage(file);
+      this.worker.postMessage({
+        image,
+        options: {
+          minimumQuality: 30,
+          quality: 85
+        }
+      });
     }
   },
   beforeDestroy() {
