@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup'
 
 
 export default defineConfig({
-    entry: ['src/index.ts', "src/workder.ts"],
+    entry: ['src/index.ts', "src/workder.ts", "src/imageWorker.worker.js"],
     splitting: false,
     sourcemap: false,
     clean: true,
