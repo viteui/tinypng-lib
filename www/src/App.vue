@@ -10,15 +10,15 @@
         <el-tab-pane label="基础使用" name="base">
           <Base />
         </el-tab-pane>
-        <el-tab-pane label="WebWork" name="webwork">
+        <!-- <el-tab-pane label="WebWork" name="webwork">
           <WebWork />
-        </el-tab-pane>
-        <!-- <el-tab-pane label="WebWork2" name="webwork2">
-          <WebWork2 />
         </el-tab-pane> -->
-        <el-tab-pane label="CompressWorker" name="compressWorker">
-          <WebWork3 />
+        <el-tab-pane label="WebWork2" name="webwork2">
+          <WebWork2 />
         </el-tab-pane>
+        <!-- <el-tab-pane label="CompressWorker" name="compressWorker">
+          <WebWork3 />
+        </el-tab-pane> -->
       </el-tabs>
     </div>
   </div>

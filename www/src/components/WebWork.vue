@@ -34,7 +34,7 @@
 </template>
 <script>
 // Import the worker
-import ImageWorker from './imageWorker.worker.js'; // This is the bundled worker
+import ImageWorker from './imageWorker1.worker.js'; // This is the bundled worker
 import { getSizeTrans } from '../utils';
 import TinyPNG from 'tinypng-lib';
 
@@ -97,4 +97,4 @@ export default {
     }
   }
 }
-</script>
+</script>./imageWorker.worker1.js

@@ -34,42 +34,10 @@
 </template>
 <script>
 // Import the worker
-import ImageWorker from './imageWorker.worker.js'; // This is the bundled worker
+// import ImageWorker from './imageWorker.worker.js'; // This is the bundled worker
 import { getSizeTrans } from '../utils/index.js';
-import TinyPNG from 'tinypng-lib';
+import { CompressWorker } from 'tinypng-lib/workder';
 
-class ImageComppress {
-  worker = null;
-  constructor(onmessage) {
-    this.worker = new ImageWorker();
-    this.worker.onmessage = (e) => {
-      const result = e.data;
-      if (result.error && !result.success) {
-        console.error("Compression failed:", result.error);
-      } else {
-        onmessage(result);
-      }
-    };
-  }
-
-  async postMessage(file, options) {
-    // 获取图片信息
-    const image = await TinyPNG.getImage(file);
-    // Send the file to the worker for compression
-    this.worker.postMessage({
-      image,
-      options
-    });
-  }
-
-  terminate() {
-    if (this.worker) {
-      this.worker.terminate();
-      this.worker = null;
-    }
-
-  }
-}
 
 export default {
   name: 'Base',
@@ -82,13 +50,8 @@ export default {
     }
   },
   mounted() {
-    this.worker = new ImageComppress((result) => {
-      this.compressing = false;
-      const url = URL.createObjectURL(result.blob);
-      this.imgUrl = url;
-      this.compressResult = result;
-    });
-
+    this.worker = new CompressWorker()
+    console.log("this.worker", this.worker)
     // Counter for the UI
     setInterval(() => {
       this.count++;
@@ -99,10 +62,17 @@ export default {
     async uploadImg(e) {
       this.compressing = true;
       // Send the file to the worker for compression
-      this.worker.postMessage(e.file, {
+      this.worker.compress(e.file, {
         minimumQuality: 30,
         quality: 85
+      }).then((res) => {
+        this.imgUrl = res.url;
+        this.compressResult = res;
+        this.compressing = false;
+      }).catch((err) => {
+        console.log("err", err)
       });
+      ;
     }
   },
   beforeDestroy() {
