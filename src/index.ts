@@ -142,8 +142,11 @@ const fileToBlob = (file: File): Promise<Blob> => {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = function (e) {
-            if (reader.result && typeof reader.result == "object") {
-                resolve(new Blob([reader.result], { type: file.type }));
+            const result = e.target?.result;
+            if (result && typeof result == "object") {
+                resolve(new Blob([result], { type: file.type }));
+            } else {
+                reject(new Error("文件转换失败"));
             }
         };
         reader.onerror = function (e) {
