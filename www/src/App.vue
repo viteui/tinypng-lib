@@ -4,22 +4,27 @@
     <div style="display: flex;
     justify-content: center;
     align-items: center;
-  
     margin-top: 50px;">
-      <el-tabs v-model="activeName" @tab-click="handleClick" style="  width: 800px;">
-        <el-tab-pane label="基础使用" name="base">
-          <Base />
-        </el-tab-pane>
-        <el-tab-pane label="WebWork" name="webwork">
-          <WebWork />
-        </el-tab-pane>
-        <!-- <el-tab-pane label="WebWork2" name="webwork2">
+      <div style="  width: 800px; position: relative">
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="基础使用" name="base">
+            <Base />
+          </el-tab-pane>
+          <el-tab-pane label="WebWork" name="webwork">
+            <WebWork />
+          </el-tab-pane>
+          <!-- <el-tab-pane label="WebWork2" name="webwork2">
           <WebWork2 />
         </el-tab-pane> -->
-        <el-tab-pane label="CompressWorker" name="compressWorker">
-          <CompressWorker />
-        </el-tab-pane>
-      </el-tabs>
+          <el-tab-pane label="CompressWorker" name="compressWorker">
+            <CompressWorker />
+          </el-tab-pane>
+        </el-tabs>
+        <div style="position: absolute; right: 10px; top: 10px; ">
+          <el-link size="mini" type="primary" href="https://github.com/viteui/tinypng-lib"
+            target="_blank">Github</el-link>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -42,7 +47,7 @@ export default {
   },
   data() {
     return {
-      activeName: 'compressWorker'
+      activeName: 'base'
     };
   },
   methods: {
