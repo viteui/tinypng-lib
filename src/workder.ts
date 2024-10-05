@@ -5,7 +5,9 @@ import TinyPNG from './index'
 export class CompressWorker {
     worker: Worker | null;
     constructor() {
-        this.worker = new ImageWorker();
+        this.worker = new Worker(new URL('./imageWorker.worker.js', import.meta.url), { type: 'module' });
+
+        // this.worker = new ImageWorker();
     }
     async compress(file: File, options: CompositeOperation) {
         // 获取图片信息
