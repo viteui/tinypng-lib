@@ -1,37 +1,53 @@
 <template>
   <div id="app">
-    <input type="file" @input="uploadImg" />
-    <img :src="imgUrl" alt="">
+    <h1> TinyPNG 使用 </h1>
+    <div style="display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    margin-top: 50px;">
+      <el-tabs v-model="activeName" @tab-click="handleClick" style="  width: 800px;">
+        <el-tab-pane label="基础使用" name="base">
+          <Base />
+        </el-tab-pane>
+        <el-tab-pane label="WebWork" name="webwork">
+          <WebWork />
+        </el-tab-pane>
+
+      </el-tabs>
+    </div>
   </div>
 </template>
 
 <script>
-import TinyPNG from 'tinypng-lib'
-
+import Base from './components/Base.vue';
+import WebWork from './components/WebWork.vue';
+import TinyPNG from 'tinypng-lib';
 
 export default {
   name: 'App',
   components: {
+    Base,
+    WebWork
   },
   data() {
     return {
-      imgUrl: ''
-    }
+      activeName: 'base'
+    };
   },
   methods: {
-    async uploadImg(e) {
-      const file = e.target.files[0];
-      try {
-        const res = await TinyPNG.compress(file, {})
-        console.log('res', res)
-        const url = URL.createObjectURL(res.blob)
-        const img = new Image()
-        this.imgUrl = url
-      } catch (error) {
-        console.log("error", error)
-      }
-
+    handleClick(tab, event) {
     }
   }
-}
+};
 </script>
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>

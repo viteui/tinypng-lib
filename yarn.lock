@@ -576,7 +576,16 @@ string-width@^4.1.0:
     is-fullwidth-code-point "^3.0.0"
     strip-ansi "^6.0.1"
 
-string-width@^5.0.1, string-width@^5.1.2:
+string-width@^5.0.1:
+  version "5.1.2"
+  resolved "https://registry.npmmirror.com/string-width/-/string-width-5.1.2.tgz"
+  integrity sha512-HnLOCR3vjcY8beoNLtcjZ5/nxn2afmME6lhrDrebokqMap+XbeW8n9TXpPDOqdGK5qcI3oT0GKTW6wC7EMiVqA==
+  dependencies:
+    eastasianwidth "^0.2.0"
+    emoji-regex "^9.2.2"
+    strip-ansi "^7.0.1"
+
+string-width@^5.1.2:
   version "5.1.2"
   resolved "https://registry.npmmirror.com/string-width/-/string-width-5.1.2.tgz"
   integrity sha512-HnLOCR3vjcY8beoNLtcjZ5/nxn2afmME6lhrDrebokqMap+XbeW8n9TXpPDOqdGK5qcI3oT0GKTW6wC7EMiVqA==
@@ -646,10 +655,10 @@ tinyglobby@^0.2.1:
     fdir "^6.4.0"
     picomatch "^4.0.2"
 
-tinypng-lib-wasm@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/tinypng-lib-wasm/-/tinypng-lib-wasm-1.0.2.tgz"
-  integrity sha512-IgWDJ3W5MowiCfQb4tDGbWTpzcPapOtLPAV7kpeBs81BKFQT/wMgpCwd+8aChv89lbotU39cwKB1aUmxYyY+rQ==
+tinypng-lib-wasm@^1.0.50:
+  version "1.0.50"
+  resolved "https://registry.npmjs.org/tinypng-lib-wasm/-/tinypng-lib-wasm-1.0.50.tgz"
+  integrity sha512-vc+R/FQ0TKu04oiWVkep+MMMkZmadCFf/GBtrSdMglL9/UFAY+nEwsRzokLregs/pTNfOSI6o3hGXj0tsXu93w==
 
 to-regex-range@^5.0.1:
   version "5.0.1"
@@ -703,10 +712,13 @@ typescript@^4.7.3, typescript@>=4.5.0:
   integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
 
 "wcrane-tool@file:../wcrane-tool":
-  version "1.0.7"
+  version "1.0.34"
   resolved "file:../wcrane-tool"
   dependencies:
+    cli-spinner "^0.2.10"
     commander "^12.1.0"
+    npmlog "^7.0.1"
+    wcrane-tool "^1.0.13"
 
 webidl-conversions@^4.0.2:
   version "4.0.2"

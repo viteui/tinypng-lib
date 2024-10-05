@@ -37,12 +37,7 @@ function fileToDataURL(file: File): Promise<string> {
     });
 }
 
-const getImageData = (file: File): Promise<{
-    buffer: ArrayBuffer,
-    width: number,
-    height: number,
-    size: number
-}> => {
+const getImageData = (file: File): Promise<Image> => {
     return new Promise((resolve, reject) => {
 
         // 创建一个 Image 对象
@@ -82,7 +77,9 @@ const getImageData = (file: File): Promise<{
                 buffer,
                 width: img.width,
                 height: img.height,
-                size: file.size
+                size: file.size,
+                name: file.name,
+                type: file.type,
             });
 
             // 释放对象 URL
@@ -95,7 +92,7 @@ const getImageData = (file: File): Promise<{
         };
     });
 };
-const uint8ArrayToFile = (uint8Array: BlobPart, fileName: string): { file: File, blob: Blob } => {
+const uint8ArrayToFile = (uint8Array: BlobPart, fileName?: string): { file: File, blob: Blob } => {
     const blob = new Blob([uint8Array], { type: 'image/png' });
     return {
         file: new File([blob], fileName || `${Date.now()}.png`, { type: 'image/png', lastModified: Date.now() }),
@@ -128,6 +125,15 @@ interface CompressResult {
     rateString: string, // 压缩率字符串
 
 }
+
+interface Image {
+    width: number,
+    height: number,
+    size: number,
+    buffer: ArrayBuffer,
+    type: string,
+    name?: string,
+}
 class TinyPNG {
     /**
      *  压缩图片(jpeg、jpg)
@@ -135,7 +141,7 @@ class TinyPNG {
      * @param { {quality: number}} options 
      * @returns 
      */
-    async compressJpegImage(file: File, options: CompressOptions): Promise<{
+    async _compressJpegImage(file: File, options: CompressOptions): Promise<{
         file: File,
         blob: Blob
     }> {
@@ -158,6 +164,35 @@ class TinyPNG {
         };
     }
     /**
+     * 
+     * @param file 图片文件
+     * @param options 
+     * @returns 
+     */
+    async compressJpegImage(file: File, options: CompressOptions = {}) {
+        if (!file) throw new Error("file can not be null");
+        if (!["image/jpeg", "image/jpg"].includes(file.type)) {
+            throw new Error("file must be jpeg or jpg");
+        }
+        const {
+            file: compressFile,
+            blob,
+        } = await this._compressJpegImage(file, {
+            ...options,
+            fileName: options.fileName || file.name
+        });
+        return {
+            success: true,
+            file: compressFile,
+            originalSize: file.size,
+            compressedSize: compressFile.size,
+            rate: compressFile.size / file.size,
+            blob: blob,
+            output: await blob.arrayBuffer(),
+            rateString: `${(compressFile.size / file.size * 100).toFixed(2)}%`
+        };
+    }
+    /**
      *  压缩图片
      * @param file 文件
      * @param {{
@@ -174,52 +209,13 @@ class TinyPNG {
         if (!file.type.includes("image/")) throw new Error("file must be image");
 
         try {
-            const {
-                minimumQuality = 0,
-                quality = 100,
-                fileName, // 压缩后文件名
-            } = options;
             if (["image/jpeg", "image/jpg"].includes(file.type)) {
-                const {
-                    file: compressFile,
-                    blob,
-                } = await this.compressJpegImage(file, options);
-                return {
-                    success: true,
-                    file: compressFile,
-                    originalSize: file.size,
-                    compressedSize: compressFile.size,
-                    rate: compressFile.size / file.size,
-                    blob: blob,
-                    output: await blob.arrayBuffer(),
-                    rateString: `${(compressFile.size / file.size * 100).toFixed(2)}%`
-                };
+                return await this.compressJpegImage(file, options)
             } else {
-
-                const {
-                    buffer,
-                    width: imageDataWidth,
-                    height: imageDataHeight,
-                    size: originalSize
-                } = await getImageData(file);
-                const uint8Array = new Uint8Array(buffer)
-                const image = new ImagequantImage(uint8Array, imageDataWidth, imageDataHeight, 0);
-                const imagequantnstance = new Imagequant()
-                imagequantnstance.set_quality(minimumQuality, quality); // 设置压缩质量范围
-                const output = imagequantnstance.process(image);
-                const { file: outputFile, blob } = uint8ArrayToFile(output, fileName || file?.name);
-                const rate = outputFile.size / originalSize;
-                return {
-                    success: true,
-                    file: outputFile,
-                    output,
-                    originalSize,
-                    compressedSize: outputFile.size,
-                    rate: rate,
-                    blob,
-                    rateString: `${(rate * 100).toFixed(2)}%`
-
-                }
+                return this.compressPngImage(await getImageData(file), {
+                    ...options,
+                    fileName: options.fileName || file.name
+                });
             }
 
         } catch (error) {
@@ -230,6 +226,57 @@ class TinyPNG {
         }
 
     }
+
+    async compressPngImage(imageData: Image, options: CompressOptions) {
+        if (!imageData) throw new Error("imageData can not be null");
+        if (!imageData.type.includes("image/png")) throw new Error("imageData must be png");
+        const {
+            buffer,
+            width: imageDataWidth,
+            height: imageDataHeight,
+            size: originalSize
+        } = imageData;
+        const uint8Array = new Uint8Array(buffer)
+        const imagequant = new ImagequantImage(uint8Array, imageDataWidth, imageDataHeight, 0);
+        const imagequantnstance = new Imagequant()
+        imagequantnstance.set_quality(options?.minimumQuality || 0, options?.quality || 88); // 设置压缩质量范围
+        const output = imagequantnstance.process(imagequant);
+        const { file: outputFile, blob } = uint8ArrayToFile(output, options?.fileName || "compressed.png");
+        const rate = outputFile.size / originalSize;
+        return {
+            success: true,
+            file: outputFile,
+            output,
+            originalSize,
+            compressedSize: outputFile.size,
+            rate: rate,
+            blob,
+            rateString: `${(rate * 100).toFixed(2)}%`
+
+        }
+    }
+
+
+    /**
+     *  压缩png图片
+     * @param image 图片对象
+     * @param options 
+     * @returns 
+     */
+    async compressWorkerImage(image: Image, options: { quality?: number, fileName?: string }) {
+        // 只支持png
+        if (image.type !== "image/png") {
+            throw new Error("只支持png格式, jpeg，jpg请在主线程使用compressJpegImage方法")
+        }
+        return this.compressPngImage(image, {
+            ...options,
+            fileName: options.fileName || image.name
+        })
+    }
+    /**
+     * 获取图片信息
+     */
+    getImage = getImageData
 
 }
 

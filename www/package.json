@@ -10,9 +10,10 @@
   "dependencies": {
     "@wasm-tool/wasm-pack-plugin": "^1.7.0",
     "core-js": "^3.8.3",
-    "tinypng-lib": "^1.0.3",
-    "tinypng-lib-wasm": "0.1.1",
-    "vue": "^2.6.14"
+    "element-ui": "^2.15.14",
+    "tinypng-lib": "^1.0.38",
+    "vue": "^2.6.14",
+    "worker-loader": "^3.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

@@ -18,6 +18,10 @@ module.exports = defineConfig({
           test: /\.wasm$/,       // 匹配 .wasm 文件
           type: "webassembly/async"  // 异步 WebAssembly 模式
         },
+        {
+          test: /\.worker\.js$/,
+          use: { loader: "worker-loader" },
+        },
         // 其他规则...
       ],
     },
