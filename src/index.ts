@@ -137,6 +137,9 @@ const uint8ArrayToFile = (uint8Array: BlobPart, fileName?: string): { file: File
     };
 }
 
+const bolbToFile = (blob: Blob, fileName?: string): File => {
+    return new File([blob], fileName || `${Date.now()}.png`, { type: 'image/png', lastModified: Date.now() })
+}
 
 const fileToBlob = (file: File): Promise<Blob> => {
     return new Promise((resolve, reject) => {
@@ -157,7 +160,7 @@ const fileToBlob = (file: File): Promise<Blob> => {
 
 
 export const compressJpeg = async (file: File, options: CompressOptions = {}): Promise<{
-    file: File,
+    bolb: Blob,
 }> => {
     return new Promise(async (resolve) => {
         new CompressorJpeg(file, {
@@ -167,12 +170,12 @@ export const compressJpeg = async (file: File, options: CompressOptions = {}): P
             // which means you have to access the `result` in the `success` hook function.
             success(result) {
                 resolve({
-                    file: result as File,
+                    bolb: result as Blob,
                 })
             },
             error(err) {
                 resolve({
-                    file: file,
+                    bolb: file,
                 })
             },
         });
@@ -223,10 +226,11 @@ class TinyPNG {
         // 计算质量 1-100 转化成 0-1
         const quality = (options?.quality || 88) / 100;
         const {
-            file: compressFile,
+            bolb,
         } = await compressJpeg(file, {
             quality,
         });
+        const compressFile = bolbToFile(bolb, options.fileName || file.name);
         return {
             success: true,
             file: compressFile,
@@ -234,7 +238,7 @@ class TinyPNG {
             compressedSize: compressFile.size,
             rate: compressFile.size / file.size,
             rateString: `${(compressFile.size / file.size * 100).toFixed(2)}%`,
-            bolb: await fileToBlob(compressFile),
+            bolb,
         };
 
     }

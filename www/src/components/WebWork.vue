@@ -63,6 +63,7 @@ export default {
         const url = URL.createObjectURL(result.blob);
         this.imgUrl = url;
         this.compressResult = result;
+        console.log('Compression result:', result);
       }
     };
 

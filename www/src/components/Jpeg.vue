@@ -56,6 +56,9 @@ export default {
         quality: 0.6,
         success: (file) => {
           console.log(file)
+          const url = URL.createObjectURL(file);
+          this.imgUrl = url;
+          // this.compressResult = file;
         }
       }
       )
