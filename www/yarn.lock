@@ -5391,10 +5391,10 @@ tinypng-lib-wasm@^1.0.50:
   resolved "https://registry.yarnpkg.com/tinypng-lib-wasm/-/tinypng-lib-wasm-1.0.52.tgz#f84190ad6d4ad1d25a6dc32579f262e8eedee317"
   integrity sha512-0K63QaO/GuSPwQGPdZIPTZvavSkNp0jiceHFzOofAhhBF76+lZBjYmE97KxB2tqdF3NK3uLu18OW7wSfHzPwYA==
 
-tinypng-lib@1.1.19:
-  version "1.1.19"
-  resolved "https://registry.yarnpkg.com/tinypng-lib/-/tinypng-lib-1.1.19.tgz#c0a684a2b63acc758c66b240aea8a4e93e72ebb4"
-  integrity sha512-VwmOZcjJ86Ik44o1nJPtUJ0SS9gbIbLHj5W+ZhkIhpPHBYNQzYqXpRValls9Jz/P/wIaSkigf0QIIq4/KPaPxg==
+tinypng-lib@1.1.20:
+  version "1.1.20"
+  resolved "https://registry.yarnpkg.com/tinypng-lib/-/tinypng-lib-1.1.20.tgz#08009e743e08c214ffe982e268f9e0917616d892"
+  integrity sha512-oIrj4JKg1rr+gMMF/bCQMsTD5iUWlO8CxD4/99ArK8Wo/391SnYGYp3MmmRbouPXwVEs3V3hAYfr5ke0NqtFLA==
   dependencies:
     compressorjs "^1.2.1"
     tinypng-lib-wasm "^1.0.50"

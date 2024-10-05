@@ -147,7 +147,7 @@ const fileToBlob = (file: File): Promise<Blob> => {
             }
         };
         reader.onerror = function (e) {
-
+            reject(e);
         }
     })
 };
